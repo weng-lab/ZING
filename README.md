@@ -7,8 +7,11 @@ usage: ZING.py [-h] [-zdir zdres] [-sdir spres]
 Run ZING pipeline (a combination of ZDOCK and SPRING)
 
 optional arguments:
+
   -h, --help   show this help message and exit
+  
   -zdir zdres  ZDOCK results directory (default: current directory)
+  
   -sdir spres  SPRING results directory (default: current directory)
 
 Note: 
