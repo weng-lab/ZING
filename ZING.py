@@ -197,7 +197,7 @@ def main():
 	zdprob=[round(a*math.exp(-S*n)+b, 3) for n in npred]
 	
 	fmodname=spres+'/'+spres+'A'+'-'+spres+'B/SPRING/ModelSummary.txt'
-	outfile=spres+'_sp_'+zdres+'_zd_pooled'+str(Nmax)+'.dat'
+	outfile='ZING_ZDSPcombined'+str(Nmax)+'.txt'
         npool=pooling_nocutoff_zors(fmodname,outfile,zdprob,Nmax)
 	print npool[0:10]
 
