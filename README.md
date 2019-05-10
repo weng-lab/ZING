@@ -31,7 +31,7 @@ http://zdock.umassmed.edu
 
 The SPRING webserver is hosted at:
 https://zhanglab.ccmb.med.umich.edu/spring/
-- Required query protein sequences as input
+- Requires query protein sequences as input
 - Provides a folder with the TemplateSummary file and the templates used and the models predicted as output. 
 
 After the results become available, please use script ZING.py (see #USAGE above) to generate the final list of predictions. 
