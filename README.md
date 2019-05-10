@@ -33,13 +33,23 @@ https://zhanglab.ccmb.med.umich.edu/spring/
 -Required query protein sequences as input
 -Provides a folder with the TemplateSummary file and the templates used and the models predicted as output. 
 
-Once the results become available use script ZING.py (see #USAGE above) to generate the final list of predictions. 
+After the results become available, please use script ZING.py (see #USAGE above) to generate the final list of predictions. 
 
 
-#OUTPUT
-FILE: ZING-combined10.txt
+#OUTPUT from ZING
+FILE: ZING_combined10.txt
 -Shows which predictions from each method were included in the combined list. 
 -e.g. s3 -> third prediction from SPRING, z4 -> 4th prediction from ZDOCK, N1,N2... indicate the ranks for ZING. 
 
 FOLDER: ZING_Preds
 -Contains the top 10 predictions obtained by combining results of ZDOCK and SPRING. (zing.1.pdb, zing.2.pdb ....) 
+
+#EXAMPLE
+Test case: 1ACB. 
+Inputs: 1ACB_ZDOCK directory with results from ZDOCK
+	1ACB_SPRING/1ACBA-1ACBB/SPRING  directory with results from SPRING
+Usage:
+python ZING.py -zdir 1ACB_ZDOCK/ -sdir 1ACB_SPRING/1ACBA-1ACBB/SPRING/
+
+Output: ZING_combined10.txt and ZING_Preds folder. 
+

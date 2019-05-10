@@ -68,15 +68,14 @@ def SPRING_modelscores(spdir):
 	k=[-14.23,12.48, 0.18] 
 	curr=os.getcwd()
 	s=spdir #SPRING results directory name
-	fmodname=s+'/'+s+'A'+'-'+s+'B/SPRING/ModelSummary.txt'
+	fmodname=os.path.join(s,'ModelSummary.txt')
 	fout=open(fmodname,'wb')
-	fname=s+'/'+s+'A'+'-'+s+'B/SPRING/TemplateSummary.txt'
+	fname=os.path.join(s,'TemplateSummary.txt')
 	with open(fname,'rb') as fin:
 		header=fin.readline()
 		header=header[0:-1]+' {:10s}'.format('modscore')+'\n'
 		fout.write(header)
 		#Get column indices for response and model scores
-		print header
                 h=header.split()
                 indm=h.index('modscore')-1 # -1 because second column name has a space in the header by default (Complex Template)
                 indc=h.index('Coverage')-1
@@ -145,25 +144,16 @@ def parse_args():
 	parser = argparse.ArgumentParser(description='Run ZING pipeline (a combination of ZDOCK and SPRING)')
 	parser.add_argument('-zdir',metavar='zdres',default=os.getcwd(),help=' ZDOCK results directory (default: current directory)')
 	parser.add_argument('-sdir',metavar='spres',default=os.getcwd(),help=' SPRING results directory (default: current directory)')
-	'''
-	parser.add_argument('-p',metavar='pathpdb',default=os.getcwd(),help=' Path to rec/ligand pdb files (default:(current directory))')
-   	parser.add_argument('-cl',metavar='pathcrlig',default=os.getcwd(),help=' Path to the create_lig file (default:(current directory))')
-    	parser.add_argument('-n',metavar='numpred',default='0',help=' # of predictions to include for RCF calculation (default:number of predictions in output file)')
-   	parser.add_argument('-c',metavar='intcutoff',default='6.0',help=' Interface distance cutoff (default:6.0)')
-    	parser.add_argument('-od',metavar='outdir',help=' Path for output directory (default:same as rec/ligand pdb file folder)')
-        parser.add_argument('-r',metavar='rfile',default='',help='Name of the receptor file (default: read from the zdock output file')
-        parser.add_argument('-l',metavar='lfile',default='',help='Name of the ligand file (default: read from the zdock output file')
-	'''    
     	args=parser.parse_args()
 	return args
 
 def create_ZINGlist_models(npool,spres,zdres):
-	spres=spres+'/'+spres+'A'+'-'+spres+'B/SPRING/Models'
-	if os.path.exists('ZING_preds'):
-        	print "removing directory ZING_preds"
-		raw_input("Press Enter to continue... ctrl+C to quit")
-                shutil.rmtree('ZING_preds')
-	os.mkdir('ZING_preds')
+	spres=os.path.join(spres,'Models')
+	if os.path.exists('ZING_Preds'):
+        	print "Removing the existing directory ZING_Preds\n"
+		raw_input("Press Enter to continue... \n Use ctrl+C to quit")
+                shutil.rmtree('ZING_Preds')
+	os.mkdir('ZING_Preds')
 	fname=[]
 	for p in npool:
 		if p[0]=='s':
@@ -174,14 +164,13 @@ def create_ZINGlist_models(npool,spres,zdres):
 			fname.append(os.path.join(zdres,'complex.'+mnum+'.pdb'))
 	zing=1
 	for f in fname:
-		shutil.copyfile(f,os.path.join('ZING_preds','zing'+str(zing)+'.pdb'))
+		shutil.copyfile(f,os.path.join('ZING_Preds','zing'+str(zing)+'.pdb'))
 		zing=zing+1
-#################### MAIN ####################
 
+
+#################### MAIN ####################
 def main():
-	
 	args=parse_args()
-	print args
 	zdres=args.zdir
 	spres=args.sdir
 
@@ -189,32 +178,19 @@ def main():
 	SPres=sys.argv[1] #Folder with SPRING results
 	ZDres=sys.argv[2] #Folder with ZDOCK results
 	Nmax=10
-	#seed values
+	
 	#Calculate zdprob
 	npred=range(1,101)
 	#Using top 500 to fit
 	a=0.082; b=0.023; S=0.018
 	zdprob=[round(a*math.exp(-S*n)+b, 3) for n in npred]
 	
-	fmodname=spres+'/'+spres+'A'+'-'+spres+'B/SPRING/ModelSummary.txt'
-	outfile='ZING_ZDSPcombined'+str(Nmax)+'.txt'
+	fmodname=spres+'/ModelSummary.txt'
+	outfile='ZING_combined'+str(Nmax)+'.txt'
         npool=pooling_nocutoff_zors(fmodname,outfile,zdprob,Nmax)
-	print npool[0:10]
 
 	create_ZINGlist_models(npool[0:10],spres,zdres)
-	'''
-    	pathpdb=args.p
-    	pathcrlig=args.cl
-    	numpred=int(args.n)
-    	intcutoff=float(args.c)
-    	outdir=args.od if args.od is not None else args.p
-    	rfile=args.r
-    	lfile=args.l
-	'''
-
     	helpmessage='For help use:\npython ZING.py -h \n'
-
-	#Log file: RCF.log
 
 	
 if __name__ == "__main__":
