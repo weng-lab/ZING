@@ -2,11 +2,9 @@
 ZING is a method to identify and combine high-confidence protein-protein complex structure predictions of a template-free method (ZDOCK) with a template-based method (SPRING). 
 
 # USAGE
-usage: ZING.py [-h] [-zdir zdres] [-sdir spres]
+python ZING.py [-h] [-zdir zdres] [-sdir spres]
 
-Run ZING pipeline (a combination of ZDOCK and SPRING)
-
-optional arguments:
+Arguments:
 
   -h, --help   show this help message and exit
   
