@@ -46,11 +46,14 @@ After the results become available, please use script ZING.py (see #USAGE above)
 - Contains the top 10 predictions obtained by combining results of ZDOCK and SPRING. (zing.1.pdb, zing.2.pdb ....) 
 
 # EXAMPLE
-Test case: 1ACB. 
-Inputs: 1ACB_ZDOCK directory with results from ZDOCK
-	1ACB_SPRING/1ACBA-1ACBB/SPRING  directory with results from SPRING
-Usage:
+### Test case: 1ACB. 
+### Inputs: 
+- 1ACB_ZDOCK directory with results from ZDOCK
+- 1ACB_SPRING/1ACBA-1ACBB/SPRING  directory with results from SPRING
+
+### Usage:
+
 python ZING.py -zdir 1ACB_ZDOCK/ -sdir 1ACB_SPRING/1ACBA-1ACBB/SPRING/
 
-Output: ZING_combined10.txt and ZING_Preds folder. 
+### Output: ZING_combined10.txt and ZING_Preds folder. 
 
